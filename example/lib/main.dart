@@ -11,19 +11,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'k_keyboard Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -36,8 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-        title: Text(widget.title),
+        title: const Text("k_keyboard"),
       ),
       body: Center(
         child: Column(
@@ -48,44 +45,47 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             TextField(
               controller: _textController,
-              style: Theme.of(context).textTheme.headline5,
+              style: Theme.of(context).textTheme.headlineMedium,
               decoration: const InputDecoration(
                 helperText: '8자를 입력해주세요',
               ),
-              onTap: (){
-                onOpenKeyBoard(controller: _textController, numericType: true,);
+              onTap: () {
+                onOpenKeyBoard(
+                  controller: _textController,
+                  numericType: true,
+                );
               },
             ),
-
           ],
         ),
       ),
-
     );
   }
 
-  void onOpenKeyBoard({required TextEditingController controller, required bool numericType}) {
+  void onOpenKeyBoard(
+      {required TextEditingController controller, required bool numericType}) {
     var box = SizedBox(
-      height: numericType ? MediaQuery.of(context).size.height * 0.35 : MediaQuery.of(context).size.height * 0.3,
+      height: numericType
+          ? MediaQuery.of(context).size.height * 0.35
+          : MediaQuery.of(context).size.height * 0.3,
       child: numericType
           ? Center(
-        child: KNumPad(
-          controller: controller,
-          maxLength: 7,
-          buttonSize: 130,
-          isNotPhoneNumber: true,
-          onSubmit: (){
-            Navigator.pop(context);
-          },
-        ),
-      )
+              child: KNumPad(
+                controller: controller,
+                maxLength: 7,
+                buttonSize: 130,
+                isNotPhoneNumber: true,
+                onSubmit: () {
+                  Navigator.pop(context);
+                },
+              ),
+            )
           : CustomKeyBoard(
-        controller: controller,
-        onSubmit: (){
-          Navigator.pop(context);
-        },
-      ),
-
+              controller: controller,
+              onSubmit: () {
+                Navigator.pop(context);
+              },
+            ),
     );
     showModalBottomSheet(
       elevation: 0,
@@ -97,5 +97,4 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
   }
-
 }

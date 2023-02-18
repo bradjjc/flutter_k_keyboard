@@ -13,8 +13,14 @@ for keyboard use `CustomKeyBoard`.
 const like = 'sample';
 TextEditingController controller = TextEditingController;
 CustomKeyBoard(
-controller: controller,
-onSubmit: (){
+controller: controller, // required TextEditingController
+maxLength: 12,
+backgroundColor = Colors.grey, 
+buttonColor = Colors.white,
+iconColor = Colors.black,
+backgroundOpacity = 0.3,
+textSize = 25,
+onSubmit: (){          // required
 Navigator.pop(context);
 },
 );
@@ -29,11 +35,14 @@ for number pad use `KNumPad`.
 const like = 'sample';
 TextEditingController controller = TextEditingController;
 KNumPad(
-controller: controller,
+controller: controller, // required TextEditingController
 maxLength: 7,
 buttonSize: 130,
 isNotPhoneNumber: true,
-onSubmit: (){
+buttonSize = 70,
+buttonColor = Colors.indigo,
+iconColor = Colors.amber,
+onSubmit: (){           // required
 Navigator.pop(context);
 },
 );

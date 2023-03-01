@@ -6,8 +6,13 @@ class CustomKeyBoard extends StatefulWidget {
     required this.onSubmit,
     required this.controller,
     this.maxLength = 12,
+    this.hSize = 50.0,
+    this.wSize = 50.0,
+    this.buttonPadding = 2.0,
+    this.buttonRadius = 16.0,
     this.backgroundColor = Colors.grey,
     this.buttonColor = Colors.white,
+    this.buttonTextColor = Colors.black,
     this.iconColor = Colors.black,
     this.backgroundOpacity = 0.3,
     this.textSize = 25,
@@ -16,8 +21,13 @@ class CustomKeyBoard extends StatefulWidget {
   final TextEditingController controller;
   final Function onSubmit;
   final int maxLength;
+  final double hSize;
+  final double wSize;
+  final double buttonPadding;
+  final double buttonRadius;
   final Color backgroundColor;
   final Color buttonColor;
+  final Color buttonTextColor;
   final Color iconColor;
   final double backgroundOpacity;
   final double textSize;
@@ -27,35 +37,34 @@ class CustomKeyBoard extends StatefulWidget {
 }
 
 class _CustomKeyBoardState extends State<CustomKeyBoard> {
-  /// true = 한글
-  /// false = 영어
-  bool language = true;
+  /// true = 한글, false = 영어
+  bool language = false;
   bool upperCase = false;
   List<List<String>> keys = [
-    ["ㅂ", "ㅈ", "ㄷ", "ㄱ", "ㅅ", "ㅛ", "ㅕ", "ㅑ", "ㅐ", "ㅔ"],
-    ["ㅁ", "ㄴ", "ㅇ", "ㄹ", "ㅎ", "ㅗ", "ㅓ", "ㅏ", "ㅣ"],
-    ["CAPS", "ㅋ", "ㅌ", "ㅊ", "ㅍ", "ㅠ", "ㅜ", "ㅡ", "DEL"],
+    ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+    ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+    ["⇧", "z", "x", "c", "v", "b", "n", "m", "←"],
     ["한/영", "space", "Enter"],
   ];
 
   final keysKor = [
     ["ㅂ", "ㅈ", "ㄷ", "ㄱ", "ㅅ", "ㅛ", "ㅕ", "ㅑ", "ㅐ", "ㅔ"],
     ["ㅁ", "ㄴ", "ㅇ", "ㄹ", "ㅎ", "ㅗ", "ㅓ", "ㅏ", "ㅣ"],
-    ["CAPS", "ㅋ", "ㅌ", "ㅊ", "ㅍ", "ㅠ", "ㅜ", "ㅡ", "DEL"],
+    ["⇧", "ㅋ", "ㅌ", "ㅊ", "ㅍ", "ㅠ", "ㅜ", "ㅡ", "←"],
     ["한/영", "space", "Enter"],
   ];
 
   final keysKorCaps = [
     ["ㅃ", "ㅉ", "ㄸ", "ㄲ", "ㅆ", "ㅛ", "ㅕ", "ㅑ", "ㅒ", "ㅖ"],
     ["ㅁ", "ㄴ", "ㅇ", "ㄹ", "ㅎ", "ㅗ", "ㅓ", "ㅏ", "ㅣ"],
-    ["CAPS", "ㅋ", "ㅌ", "ㅊ", "ㅍ", "ㅠ", "ㅜ", "ㅡ", "DEL"],
+    ["⇧", "ㅋ", "ㅌ", "ㅊ", "ㅍ", "ㅠ", "ㅜ", "ㅡ", "←"],
     ["한/영", "space", "Enter"],
   ];
 
   final keysEng = [
     ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
     ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-    ["CAPS", "z", "x", "c", "v", "b", "n", "m", "DEL"],
+    ["⇧", "z", "x", "c", "v", "b", "n", "m", "←"],
     ["한/영", "space", "Enter"],
   ];
 
@@ -157,16 +166,31 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                         keys[0].length,
                         (i) => TableCell(
                               child: SizedBox(
-                                height: 100,
+                                height: widget.hSize,
+                                width: widget.wSize,
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 3.0, vertical: 3.0),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: widget.buttonPadding,
+                                      vertical: widget.buttonPadding),
                                   child: ElevatedButton(
-                                      child: Text(
-                                        keys[0][i],
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: widget.textSize),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: widget.buttonColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              widget.buttonRadius),
+                                          // borderRadius: BorderRadius.circular(size / 2),
+                                        ),
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          keys[0][i],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: widget.textSize,
+                                            color: widget.buttonTextColor,
+                                          ),
+                                        ),
                                       ),
                                       onPressed: () {
                                         _buttonClick(
@@ -186,16 +210,31 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                           keys[1].length,
                           (i) => TableCell(
                                 child: SizedBox(
-                                  height: 100,
+                                  height: widget.hSize,
+                                  width: widget.wSize,
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 3.0, vertical: 3.0),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: widget.buttonPadding,
+                                        vertical: widget.buttonPadding),
                                     child: ElevatedButton(
-                                        child: Text(
-                                          keys[1][i],
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: widget.textSize),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: widget.buttonColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                widget.buttonRadius),
+                                            // borderRadius: BorderRadius.circular(size / 2),
+                                          ),
+                                        ),
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            keys[1][i],
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: widget.textSize,
+                                              color: widget.buttonTextColor,
+                                            ),
+                                          ),
                                         ),
                                         onPressed: () {
                                           //   _answerPush(i + 10);
@@ -217,16 +256,31 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                           keys[2].length,
                           (i) => TableCell(
                                 child: SizedBox(
-                                  height: 100,
+                                  height: widget.hSize,
+                                  width: widget.wSize,
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 3.0, vertical: 3.0),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: widget.buttonPadding,
+                                        vertical: widget.buttonPadding),
                                     child: ElevatedButton(
-                                        child: Text(
-                                          keys[2][i],
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: widget.textSize),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: widget.buttonColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                widget.buttonRadius),
+                                            // borderRadius: BorderRadius.circular(size / 2),
+                                          ),
+                                        ),
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            keys[2][i],
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: widget.textSize,
+                                              color: widget.buttonTextColor,
+                                            ),
+                                          ),
                                         ),
                                         onPressed: () {
                                           //   _answerPush(i + 19);
@@ -248,16 +302,31 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
                           keys[3].length,
                           (i) => TableCell(
                                 child: SizedBox(
-                                  height: 100,
+                                  height: widget.hSize,
+                                  width: widget.wSize,
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 3.0, vertical: 3.0),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: widget.buttonPadding,
+                                        vertical: widget.buttonPadding),
                                     child: ElevatedButton(
-                                        child: Text(
-                                          keys[3][i],
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: widget.textSize),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: widget.buttonColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                widget.buttonRadius),
+                                            // borderRadius: BorderRadius.circular(size / 2),
+                                          ),
+                                        ),
+                                        child: Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            keys[3][i],
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: widget.textSize,
+                                              color: widget.buttonTextColor,
+                                            ),
+                                          ),
                                         ),
                                         onPressed: () {
                                           _buttonClick(
@@ -295,15 +364,15 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
             upperCase = false;
           });
         }
-      } else if (keys[columnIndex][rowIndex] == 'CAPS') {
+      } else if (keys[columnIndex][rowIndex] == '⇧') {
         if (!language) {
           if (!upperCase) {
             setState(() {
               upperCase = true;
               keys = keys
                   .map((e) => e
-                      .map((e) => e != "CAPS" &&
-                              e != "DEL" &&
+                      .map((e) => e != "⇧" &&
+                              e != "←" &&
                               e != "한/영" &&
                               e != "space" &&
                               e != "Enter"
@@ -317,8 +386,8 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
               upperCase = false;
               keys = keys
                   .map((e) => e
-                      .map((e) => e != "CAPS" &&
-                              e != "DEL" &&
+                      .map((e) => e != "⇧" &&
+                              e != "←" &&
                               e != "한/영" &&
                               e != "space" &&
                               e != "Enter"
@@ -351,7 +420,7 @@ class _CustomKeyBoardState extends State<CustomKeyBoard> {
           clear();
           widget.controller.text += ' ';
         });
-      } else if (keys[columnIndex][rowIndex] == 'DEL') {
+      } else if (keys[columnIndex][rowIndex] == '←') {
         delete();
       } else if (keys[columnIndex][rowIndex] == 'Enter') {
         widget.onSubmit();

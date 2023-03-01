@@ -132,28 +132,29 @@ class KNumPad extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      if(isNotPhoneNumber){
+                      if (isNotPhoneNumber) {
                         controller.text = controller.text
                             .substring(0, controller.text.length - 1);
                       } else {
                         controller.text = controller.text
                             .substring(0, controller.text.length - 1);
                         // length의 마지막이 '-' 일때 '-'를 없애준다
-                        if(controller.text.substring(controller.text.length - 1) == '-'){
+                        if (controller.text
+                                .substring(controller.text.length - 1) ==
+                            '-') {
                           controller.text = controller.text
                               .substring(0, controller.text.length - 1);
                         }
                         // 000-0000-000 이 안되도록 배제
                         var oldText = controller.text.replaceAll('-', '');
                         var tmp = '';
-                        if(oldText.length < 4){
-                          null;
-                        } else if(oldText.length < 7){
+                        if (oldText.length < 4) {
+                        } else if (oldText.length < 7) {
                           tmp += oldText.substring(0, 3);
                           tmp += '-';
                           tmp += oldText.substring(3, oldText.length);
                           controller.text = tmp;
-                        } else if(oldText.length < 11){
+                        } else if (oldText.length < 11) {
                           tmp += oldText.substring(0, 3);
                           tmp += '-';
                           tmp += oldText.substring(3, 6);
@@ -204,9 +205,11 @@ class KNumPad extends StatelessWidget {
                     onPressed: () => onSubmit(),
                     child: const Center(
                       child: Text(
-                        '확인',
+                        'OK',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black, fontSize: 25),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 12),
                       ),
                     ),
                   ),
@@ -264,24 +267,22 @@ class NumberButton extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            if(controller.text.length > maxLength){
-              null;
-            }else {
-              if(isNotPhoneNumber){
+            if (controller.text.length > maxLength) {
+            } else {
+              if (isNotPhoneNumber) {
                 controller.text += number.toString();
               } else {
                 controller.text += number.toString();
                 // controller.text = controller.text.replaceAll(RegExp(r'/[^0-9]/g'), '');
                 var oldText = controller.text.replaceAll('-', '');
                 var tmp = '';
-                if(oldText.length < 4){
-                  null;
-                } else if(oldText.length < 7){
+                if (oldText.length < 4) {
+                } else if (oldText.length < 7) {
                   tmp += oldText.substring(0, 3);
                   tmp += '-';
                   tmp += oldText.substring(3, oldText.length);
                   controller.text = tmp;
-                } else if(oldText.length < 11){
+                } else if (oldText.length < 11) {
                   tmp += oldText.substring(0, 3);
                   tmp += '-';
                   tmp += oldText.substring(3, 6);
@@ -298,13 +299,14 @@ class NumberButton extends StatelessWidget {
                 }
               }
             }
-
           },
           child: Center(
             child: Text(
               number.toString(),
               style: const TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.black, fontSize: 30),
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 30),
             ),
           ),
         ),

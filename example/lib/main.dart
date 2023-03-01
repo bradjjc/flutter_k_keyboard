@@ -38,23 +38,41 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            const Text(
-              'you can type',
-            ),
-            TextField(
-              controller: _textController,
-              style: Theme.of(context).textTheme.headlineMedium,
-              decoration: const InputDecoration(
-                helperText: '8자를 입력해주세요',
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: const Center(
+                child: Text(
+                  'you can type',
+                  style: TextStyle(
+                    fontSize: 24,
+                  ),
+                ),
               ),
-              onTap: () {
-                onOpenKeyBoard(
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: TextField(
                   controller: _textController,
-                  numericType: true,
-                );
-              },
+                  style: Theme.of(context).textTheme.headlineMedium,
+                  decoration: const InputDecoration(
+                    hintText: 'type text',
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 0.0),
+                    ),
+                  ),
+                  onTap: () {
+                    onOpenKeyBoard(
+                      controller: _textController,
+                      numericType: false,
+                      // isNotPhoneNumber: true,
+                    );
+                  },
+                ),
+              ),
             ),
           ],
         ),
@@ -62,19 +80,22 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void onOpenKeyBoard(
-      {required TextEditingController controller, required bool numericType}) {
+  void onOpenKeyBoard({
+    required TextEditingController controller,
+    required bool numericType,
+    bool isNotPhoneNumber = false,
+  }) {
     var box = SizedBox(
       height: numericType
-          ? MediaQuery.of(context).size.height * 0.35
-          : MediaQuery.of(context).size.height * 0.3,
+          ? MediaQuery.of(context).size.height * 0.4
+          : MediaQuery.of(context).size.height * 0.25,
       child: numericType
           ? Center(
               child: KNumPad(
                 controller: controller,
-                maxLength: 7,
-                buttonSize: 130,
-                isNotPhoneNumber: true,
+                maxLength: 11,
+                buttonSize: 65,
+                isNotPhoneNumber: isNotPhoneNumber,
                 onSubmit: () {
                   Navigator.pop(context);
                 },
@@ -82,6 +103,8 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           : CustomKeyBoard(
               controller: controller,
+              maxLength: 12,
+              textSize: 15,
               onSubmit: () {
                 Navigator.pop(context);
               },
